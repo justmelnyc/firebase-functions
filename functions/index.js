@@ -70,7 +70,7 @@ router.post('/bookservice', (req, res) => {
             reservationObj.userId = req.user.user_id;
 
             admin.database().ref(`/reservations`).push(reservationObj).then(snapshot => {
-                let reservationMessage = `Hi, Reservation have been made from ${req.user.name}. <br/>Below are details of the reservation. <br/><br/>User: ${req.user.name} <br/>Email: ${req.user.email}<br/>Service Type: ${reservationObj.type}<br/>Reservation Date:${reservationObj.reservationDate}<br/>Time: ${reservationObj.reservationTime}`;
+                let reservationMessage = `Hi, Reservation has been made! ${req.user.name}. <br/>Below are the details for the reservation. <br/><br/>User: ${req.user.name} <br/>Email: ${req.user.email}<br/>Service Type: ${reservationObj.type}<br/>Reservation Date:${reservationObj.reservationDate}<br/>Time: ${reservationObj.reservationTime}`;
                 console.log('reservation message', reservationMessage);
                 sendEmail(req.user.email, adminEmail, `Reservation made`, 'text/html', reservationMessage, function(error, response) {
                     if (error) {
@@ -79,7 +79,7 @@ router.post('/bookservice', (req, res) => {
                         console.log('Sendgrid Mail Sent');
                     }
                 });
-                let reservationMessageToUser = `Hi, Reservation have been successfully made from <br/>Below are details of the reservation. <br/><br/>Service Type: ${reservationObj.type}<br/>Reservation Date:${reservationObj.reservationDate}<br/>Time: ${reservationObj.reservationTime}<br/><br/>If the information is not correct, please contact support team<br/><br/>Best Regards<br/>Support Team`;
+                let reservationMessageToUser = `Hi, Reservation has been successfully made, <br/>Below are you details for the reservation. <br/><br/>Service Type: ${reservationObj.type}<br/>Reservation Date:${reservationObj.reservationDate}<br/>Time: ${reservationObj.reservationTime}<br/><br/>If the information is not correct, please contact support team<br/><br/>Best Regards<br/>Support Team`;
                 sendEmail(adminEmail, req.user.email, `Reservation made`, 'text/html', reservationMessageToUser, function(error, response) {
                     if (error) {
                         console.log('Sendgrid Error response received',error);
